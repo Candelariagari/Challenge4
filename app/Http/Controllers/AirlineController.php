@@ -10,6 +10,7 @@ use Illuminate\Contracts\View\View;
 use App\Http\Requests\StoreAirlineRequest;
 use App\Http\Requests\UpdateAirlineRequest;
 
+
 class AirlineController extends Controller
 {
     public function index() : View
@@ -56,11 +57,5 @@ class AirlineController extends Controller
         return response()->json([
             'success'=>'Airline updated!'
         ]);
-    }
-
-    public function all(): JsonResponse
-    {
-        $airlines = Airline::with('cities')->get();
-        return response()->json($airlines);
     }
 }
