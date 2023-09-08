@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\City;
 use Illuminate\Http\Request;
-use Illuminate\Contracts\View\View
+use Illuminate\Contracts\View\View;
 use App\Http\Requests\StoreOrUpdateCityRequest;
 use Illuminate\Http\JsonResponse;
 
