@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\City;
 use App\Models\Airline;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\View\View;
 use App\Http\Requests\StoreAirlineRequest;
 use App\Http\Requests\UpdateAirlineRequest;
-use App\Models\City;
-use Illuminate\Http\JsonResponse;
+
 
 class AirlineController extends Controller
 {
