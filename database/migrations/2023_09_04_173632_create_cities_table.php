@@ -19,14 +19,6 @@ return new class extends Migration
             $table->softDeletes();
         });
     }
-
-    // Schema::table('flights', function (Blueprint $table) {
-
-    // });
-
-    // Schema::table('flights', function (Blueprint $table) {
-    //     $table->dropSoftDeletes();
-    // });
     /**
      * Reverse the migrations.
      */

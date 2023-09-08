@@ -15,12 +15,5 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         City::factory(10)->create();
-        Airline::factory(4)->create();
-        // Flight::factory(15)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
     }
 }
