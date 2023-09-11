@@ -9,10 +9,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('airlines', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('name')->unique();
-            $table->string('text')->nullable();
+            $table->string('description')->nullable();
             $table->timestamps();
+            // $table->foreignId('city_id')->constrained('cities')->cascadeOnDelete();
             $table->softDeletes();
         });
     }

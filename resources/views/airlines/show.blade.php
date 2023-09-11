@@ -3,7 +3,7 @@
         <div class="-my-2 overflow-x-auto sm:mx-6 lg:-mx-8 px-20">
             <div class="oy-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                 <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg px-5">
-                    <table class="min-w-full divide-y divide-gray-200 mx-auto-50">
+                    <table class="min-w-full divide-y divide-gray-200 mx-auto-50 px-10 scroll-m-0">
                         <tbody class="bg-white divide-y divide-gray-200" id="citiesTable">
                             @if (count($airlines) == 0)
                                 <tr class="px-6 py-4 whitespace-nowrap">
@@ -34,14 +34,14 @@
                                             </td>
 
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                    <a href="" class="text-gray-600 hover:text-blue-500 visited:text-purple-600 ">
+                                                    <a href="/airlines/{{  $airline->id  }}" class="text-gray-600 hover:text-blue-500 visited:text-purple-600" id="edit">
                                                         Edit
                                                     </a>
                                             </td>
 
                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                                     <form>
-                                                        <button class="text-gray-400 hover:text-blue-500 visited:text-purple-600 deleteButton">
+                                                        <button class="text-gray-400 hover:text-blue-500 visited:text-purple-600 deleteButton" id="{{  $airline->id  }}">
                                                             Delete
                                                         </button>
                                                     </form>
@@ -62,23 +62,63 @@
         </div>
     @endif
 
-    {{-- <div class="mt-10 flex justify-center items-center" id="newsLetter">
-        <div class="relative inline-block mx-auto lg:bg-gray-200 rounded-full">
-            <form class="lg:flex">
-                <div class="lg:py-3 lg:px-5 flex items-center">
-                    <label for="newCityName" class="hidden lg:inline-block text-gray-500">
-                       Name of the new airline:
+    <div class="bg-gray-50 border border-black border-opacity-5 rounded-xl text-center py-5 px-5 mt-16">
+        <h2 class="text-center font-bold text-xl font-serif font-semibold text-sky-100 tracking-widest"> Add a new Airline!</h1>
+            <form action="" method="" class="mt-10">
+                @csrf
+                <div class="mb-6 flex w-1/2 mx-auto space-x-4 items-center">
+                    <label class="block mb-2 font-bold uppercase text-s text-gray-700"
+                            for="name">
+                            Name
                     </label>
 
-                    <input id="newCityName" type="text"
-                           class="lg:bg-transparent py-2 lg:py-0 pl-4 focus-within:outline-none bg-cyan-900">
+                    <input class="border border-gray-200 p-2 w-full rounded-xl"
+                            type="text"
+                            name="name"
+                            id="name"
+                            value="{{  old('name')  }}"
+                            required
+                    >
                 </div>
 
-                <button type="submit"
-                        class="transition-colors duration-300 bg-{#1d5b81} mt-4 lg:mt-0 rounded-full text-xs font-semibold text-white uppercase py-3 px-8 addCityButton">
-                    ADD
-                </button>
+                <div class="mb-6">
+                    <textarea name="description" id="description" cols="83" rows="4"
+                            placeholder="Add a description of the airline..."
+                            class="rounded-xl border border-gray-200" style="text-align: center;">
+                    </textarea>
+                </div>
+
+                <div class="mb-2">
+                    <button type="submit"
+                            class="bg-blue-300 text-white bold py-2 px-8 hover:bgg-blue-500 uppercase rounded-xl"
+                    >
+                        Submit
+                    </button>
+                </div>
+
+                @foreach ($errors->all() as $error)
+                    <li>{{  $error  }}</li>
+                @endforeach
             </form>
-        </div>
-    </div> --}}
+    </div>
 </x-layout>
+
+<script>
+var deleteButtons = document.querySelectorAll('.deleteButton');
+
+deleteButtons.forEach(function (button){
+    button.addEventListener("click", function (event){
+        event.preventDefault();
+        var airlineId = button.id;
+        alert("hola" + airlineId);
+        var rowToDelete = document.getElementById('fila' + airlineId);
+
+        fetch(`/api/airlines/${airlineId}`, {
+            method: 'DELETE',
+        }).then(function (msg){
+            alert("Airline was removed!");
+            rowToDelete.parentNode.removeChild(rowToDelete);
+        });
+    });
+});
+</script>

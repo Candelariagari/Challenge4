@@ -42,7 +42,7 @@ class AirlineController extends Controller
     {
         $airline->update($request->toArray());
         return response()->json([
-            'success'=>'City updated!'
+            'success'=>'Airline updated!'
         ]);
     }
 }
