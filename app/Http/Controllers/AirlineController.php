@@ -17,10 +17,8 @@ class AirlineController extends Controller
 
     public function store(StoreOrUpdateAirlineRequest $request)
     {
-        Airline::create($request->toArray());
-        return response()->json([
-            'success' => 'Airline created succesffully.'
-        ]);
+        $newAirline = Airline::create($request->toArray());
+        return response()->json($newAirline);
     }
 
     public function delete(Airline $airline){
@@ -32,7 +30,7 @@ class AirlineController extends Controller
 
     public function edit(Airline $airline)
     {
-        // return response()->json($airline);
+        // $airlineToEdit = response()->json($airline);
         return view('airlines.updateForm', [
             'airline' => $airline
         ]);
