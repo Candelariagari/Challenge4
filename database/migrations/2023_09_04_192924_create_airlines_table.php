@@ -13,6 +13,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('description')->nullable();
             $table->timestamps();
+            // $table->foreignId('city_id')->constrained('cities')->cascadeOnDelete();
             $table->softDeletes();
         });
     }
