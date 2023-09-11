@@ -13,7 +13,7 @@ return new class extends Migration
     {
         //falta agregar cantidad de departures y arrivals
         Schema::create('cities', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('name')->unique();
             $table->timestamps();
             $table->softDeletes();

@@ -38,13 +38,6 @@
                 method: 'PUT',
                 url: `/api/cities/${cityId}`,
                 data: { name: cityName },
-                // success: function( msg ) {
-                //     alert( 'City updated successfully.');
-                //     window.location.replace('/cities');
-                // },
-                // error: function(error) {
-                //     alert('Error changing de name.')
-                // },
             })
 
             .done(function( msg ) {
