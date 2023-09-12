@@ -49,7 +49,7 @@
 
 <script>
 
-// ME DA ERROR 405
+
 var updateAirlineButton = document.getElementById('updateAirline');
 
 updateAirlineButton.addEventListener("click", function(event){
@@ -72,11 +72,15 @@ updateAirlineButton.addEventListener("click", function(event){
         if (response.ok) {
             return response.json();
         } else {
-            throw new Error('Error.');
+            if(nameNewAirline == "" || descNewAirline == ""){
+                alert("Name and description should have information.");
+            } else {
+                throw new Error('Error.');
+            }
         }
     })
-    .then(function(airline){
-        addRow(airline);
+    .then(function(loc) {
+        window.location.href = '/airlines';
     })
     .catch(error => {
         console.error(error);

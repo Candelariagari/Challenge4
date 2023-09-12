@@ -76,7 +76,6 @@
                             type="text"
                             name="name"
                             id="nameAirline"
-                            value="{{  old('name')  }}"
                             required
                     >
                 </div>
@@ -87,7 +86,7 @@
                         Description:
                     </label>
                     <textarea name="description" id="descriptionAirline" cols="83" rows="4"
-                            class="rounded-xl border border-gray-200" style="text-align: center;">
+                            class="rounded-xl border border-gray-200" required>
                     </textarea>
                 </div>
 
@@ -140,7 +139,7 @@ function addRow(airline) {
 
     var airlinesTable = document.getElementById("airlinesTable");
     airlinesTable.innerHTML += newRow;
-}
+};
 
 var addAirlineButton = document.getElementById('addAirline');
 

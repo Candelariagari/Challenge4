@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class StoreOrUpdateAirlineRequest extends FormRequest
+class UpdateAirlineRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,16 +22,13 @@ class StoreOrUpdateAirlineRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => ['required', 'unique:airlines,name'],
-            'description' => ['nullable']
-        ];
-    }
+        $airline = $this->route('airline');
 
-    public function toArray(): array
-    {
-        return ['name' => (string) $this->string('name'),
-                'description' => (string) $this->string('description')
+        return [
+            'name'=> ['required', Rule::unique('airlines', 'name')->where(function ($query) {
+                    $query->whereNull('deleted_at');
+                })->ignore($airline->id)],
+            'description'=> 'required'
         ];
     }
 }

@@ -4,31 +4,35 @@ namespace App\Http\Controllers;
 
 use App\Models\Airline;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreOrUpdateAirlineRequest;
+use Illuminate\Contracts\View\View;
+use App\Http\Requests\StoreAirlineRequest;
+use App\Http\Requests\UpdateAirlineRequest;
+use Illuminate\Http\JsonResponse;
 
 class AirlineController extends Controller
 {
-    public function index()
+    public function index() : View
     {
         return view('airlines.show', [
             'airlines' => Airline::paginate(5)
         ]);
     }
 
-    public function store(StoreOrUpdateAirlineRequest $request)
+    public function store(StoreAirlineRequest $request) : JsonResponse
     {
         $newAirline = Airline::create($request->toArray());
         return response()->json($newAirline);
     }
 
-    public function delete(Airline $airline){
+    public function delete(Airline $airline) : JsonResponse
+    {
         $airline->delete();
         return response()->json([
             'success' => 'Airline has been deleted.'
         ]);
     }
 
-    public function edit(Airline $airline)
+    public function edit(Airline $airline) : View
     {
         // $airlineToEdit = response()->json($airline);
         return view('airlines.updateForm', [
@@ -36,7 +40,7 @@ class AirlineController extends Controller
         ]);
     }
 
-    public function update(StoreOrUpdateAirlineRequest $request, Airline $airline)
+    public function update(UpdateAirlineRequest $request, Airline $airline) : JsonResponse
     {
         $airline->update($request->toArray());
         return response()->json([
