@@ -19,20 +19,7 @@
                 <h1 class="font-serif text-3xl font-semibold text-sky-100 tracking-widest">Travel Agency</h1>
             </div>
 
-            {{-- <div class="mt-8 md:mt-0 flex items-center  mx-10 lg:bg-gray-200 rounded-full">
-                <form method="POST" action="#" class="lg:flex text-sm">
-                    <div class="lg:py-3 lg:px-5 flex items-center">
-                        <label for="email" class="hidden lg:inline-block"></label>
-
-                        <input id="email" type="text" placeholder="Search for your city..."
-                               class="lg:bg-transparent py-2 lg:py-0 pl-4 focus-within:outline-none">
-                    </div>
-                </form>
-            </div> --}}
-
-
         </nav>
                  {{  $slot  }}
-        {{-- <footer class="bg-gray-100 border border-black border-opacity-5 rounded-xl text-center py-16 px-10 mt-16"></footer> --}}
     </section>
 </body>
