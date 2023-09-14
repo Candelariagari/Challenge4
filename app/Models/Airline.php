@@ -7,16 +7,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class City extends Model
+class Airline extends Model
 {
     protected $guarded = [];
     use HasFactory;
     use SoftDeletes;
 
-    public function airlines() : BelongsToMany
+    public function cities() : BelongsToMany
     {
-        return $this->belongsToMany(Airline:: class, 'airline_city', 'city_id', 'airline_id');
+        return $this->belongsToMany(City:: class, 'airline_city', 'airline_id', 'city_id');
     }
-
-
 }

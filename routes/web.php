@@ -14,6 +14,12 @@ use App\Http\Controllers\AirlineController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::group(['prefix' => 'cities'], function (){
+    Route::get('/', [CityController::class, 'index']);
+    Route::get('/{city}', [CityController::class, 'edit']);
+});
 
-Route::get('/cities', [CityController::class, 'index']);
-Route::get('/cities/{city}', [CityController::class, 'edit']);
+Route::group(['prefix' => 'airlines'], function (){
+    Route::get('/', [AirlineController::class, 'index']);
+    Route::get('/{airline}',[AirlineController::class, 'edit']);
+});
