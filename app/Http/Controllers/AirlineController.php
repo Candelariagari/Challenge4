@@ -10,7 +10,6 @@ use Illuminate\Contracts\View\View;
 use App\Http\Requests\StoreAirlineRequest;
 use App\Http\Requests\UpdateAirlineRequest;
 
-
 class AirlineController extends Controller
 {
     public function index() : View
