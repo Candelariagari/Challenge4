@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use App\Http\Requests\StoreAirlineRequest;
 use App\Http\Requests\UpdateAirlineRequest;
+use App\Models\City;
 use Illuminate\Http\JsonResponse;
 
 class AirlineController extends Controller
@@ -34,15 +35,24 @@ class AirlineController extends Controller
 
     public function edit(Airline $airline) : View
     {
-        // $airlineToEdit = response()->json($airline);
+        $cities = City::all();
+
+        $selectedCities = $airline->load('cities');
+
         return view('airlines.updateForm', [
-            'airline' => $airline
+            'airline' => $airline,
+            'cities' => $cities,
+            'selectedCities' => $selectedCities
         ]);
     }
 
     public function update(UpdateAirlineRequest $request, Airline $airline) : JsonResponse
     {
-        $airline->update($request->toArray());
+        $requestAttributes = $request->toArray();
+        $airline->update(['name' => $requestAttributes["name"],
+                         'description' => $requestAttributes["description"]]);
+        $airline->cities()->sync($requestAttributes["cities"]);
+
         return response()->json([
             'success'=>'Airline updated!'
         ]);

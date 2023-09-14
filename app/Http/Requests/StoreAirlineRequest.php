@@ -23,9 +23,6 @@ class StoreAirlineRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=> ['required', Rule::unique('airlines', 'name')->where(function ($query) {
-                $query->whereNull('deleted_at');
-            })],
             'name' => ['required', 'unique:airlines,name'],
             'description' => 'nullable'
         ];

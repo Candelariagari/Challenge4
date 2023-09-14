@@ -19,8 +19,6 @@ class AirlineFactory extends Factory
         return [
             'name' => $this->faker->name(),
             'description' => $this->faker->text(),
-
-            // 'description'=>$this->faker->unique(),
         ];
     }
 }

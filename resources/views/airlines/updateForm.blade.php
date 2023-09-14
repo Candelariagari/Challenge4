@@ -1,4 +1,6 @@
 @props(['airline'])
+@props(['cities'])
+@props(['selectedCities'])
 <x-layout>
     <div class="bg-gray-50 border border-black border-opacity-5 rounded-xl text-center py-5 px-5 mt-16">
         <h2 class="text-center font-bold text-xl font-serif font-semibold text-sky-100 tracking-widest"> Update the airline!</h1>
@@ -30,6 +32,20 @@
                     </textarea>
                 </div>
 
+                <div class="mb-6 flex w-1/2 mx-auto space-x-4 items-center justify-center ">
+                    <label class="block mb-2 font-bold uppercase text-s text-gray-700 ">Cities:</label>
+                    <ul class="ml-0 list-none text-left">
+                        @foreach ($cities as $city)
+                            <li class="mb-2 py-1">
+                                <label class="inline-flex items-center">
+                                    <input type="checkbox" name="cities[]" value="{{ $city->id }}" {{ ($airline->cities->contains($city->id)) ? 'checked' : '' }}>
+                                    <span class="ml-2">{{ $city->name }}</span>
+                                </label>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+
                 <div class="mb-2">
                     <button type="submit"
                             class="bg-blue-400 text-white bold py-2 px-8 hover:bgg-blue-500 uppercase rounded-xl"
@@ -49,6 +65,19 @@
 
 <script>
 
+function citiesOfAirline()
+{
+    var selectedCities = [];
+    var allCities = document.querySelectorAll('input[name="cities[]"]');
+
+    allCities.forEach(function (city) {
+        if (city.checked) {
+            selectedCities.push(city.value);
+        }
+    });
+
+    return selectedCities;
+}
 
 var updateAirlineButton = document.getElementById('updateAirline');
 
@@ -57,6 +86,7 @@ updateAirlineButton.addEventListener("click", function(event){
     var airlineId = updateAirlineButton.getAttribute('data-airline-id');
     var nameNewAirline = document.getElementById('nameAirline').value;
     var descNewAirline = document.getElementById('descriptionAirline').value;
+    var idSelectedcities = citiesOfAirline();
 
     fetch('/api/airlines/'+airlineId , {
         method: 'PUT',
@@ -65,7 +95,8 @@ updateAirlineButton.addEventListener("click", function(event){
         },
         body: JSON.stringify({
             name: nameNewAirline,
-            description: descNewAirline
+            description: descNewAirline,
+            cities: idSelectedcities
         })
     })
     .then(function(response) {
@@ -79,11 +110,11 @@ updateAirlineButton.addEventListener("click", function(event){
             }
         }
     })
-    .then(function(loc) {
+    .then(function(location) {
         window.location.href = '/airlines';
     })
     .catch(error => {
-        console.error(error);
+        console.error('Request couldnt be processed');
     });
 });
 </script>

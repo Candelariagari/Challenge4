@@ -25,10 +25,18 @@ class UpdateAirlineRequest extends FormRequest
         $airline = $this->route('airline');
 
         return [
-            'name'=> ['required', Rule::unique('airlines', 'name')->where(function ($query) {
-                    $query->whereNull('deleted_at');
-                })->ignore($airline->id)],
-            'description'=> 'required'
+            'name' => ['required', Rule::unique('airlines', 'name')->ignore($airline->id)],
+            'description' => 'required',
+            'cities' => ['nullable', 'array'],
+            'cities.*' => [Rule::exists('cities', 'id')]
+        ];
+    }
+
+    public function toArray(): array
+    {
+        return ['name' => (string) $this->string('name'),
+                'description' => (string) $this->string('description'),
+                'cities' => $this->input('cities', [])
         ];
     }
 }
