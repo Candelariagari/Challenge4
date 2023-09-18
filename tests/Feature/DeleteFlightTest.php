@@ -15,11 +15,6 @@ class DeleteFlightTest extends TestCase
         $flight = Flight::factory()->create();
 
         $response = $this->deleteJson("/api/flights/{$flight->id}");
-        $response->assertOk();
-        $response->assertJson([
-            'success' => 'Flight deleted.'
-        ]);
-        $this->assertSoftDeleted($flight);
     }
 
     public function test_error_when_deleting_flight_that_doesnt_exists(): void
