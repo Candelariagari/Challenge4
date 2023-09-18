@@ -12,9 +12,11 @@ class FlightController extends Controller
 
     public function store(StoreFlightRequest $request)
     {
-        $newFlight = Flight::create($request->toArray());
+        Flight::create($request->toArray());
 
-        return response()->json($newFlight);
+        return response()->json([
+            'success' => 'Flight created succesfully.'
+        ]);
     }
 
     public function delete(Flight $flight) : JsonResponse
