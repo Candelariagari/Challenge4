@@ -36,11 +36,9 @@ class StoreFlightTest extends TestCase
             'destination_id' => $this->destinationCity->id
         ];
 
-        $response = $this->post('/api/flights', $newFlightAttributes);
-        $response->assertStatus(200);
-        $response->assertJson([
-            'success' => 'Flight created succesfully.'
-        ]);
+        $response = $this->postJson('/api/flights', $newFlightAttributes);
+        $this->assertDatabaseHas('flights', $newFlightAttributes);
+        $response->assertOk();
     }
 
     public function test_doesnt_stores_flight_with_airline_that_doesnt_operates_in_depcity(): void

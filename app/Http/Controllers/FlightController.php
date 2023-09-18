@@ -6,17 +6,21 @@ use App\Models\Flight;
 use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StoreFlightRequest;
 use App\Http\Requests\UpdateFlightRequest;
+use Illuminate\View\View;
 
 class FlightController extends Controller
 {
-
-    public function store(StoreFlightRequest $request)
+    public function index(): View
     {
-        Flight::create($request->toArray());
-
-        return response()->json([
-            'success' => 'Flight created succesfully.'
+        return view('flights.show', [
+            'flights' => Flight::paginate(10)
         ]);
+    }
+    public function store(StoreFlightRequest $request): JsonResponse
+    {
+        $newflight = Flight::create($request->toArray());
+
+        return response()->json($newflight);
     }
 
     public function delete(Flight $flight) : JsonResponse
@@ -29,10 +33,8 @@ class FlightController extends Controller
 
     public function update(UpdateFlightRequest $request, Flight $flight)
     {
-        $flight->update($request->toArray());
+        $updatedFlight = $flight->update($request->toArray());
 
-        return response()->json([
-            'success' => 'Flight updated succesfully.'
-        ]);
+        return response()->json($updatedFlight);
     }
 }

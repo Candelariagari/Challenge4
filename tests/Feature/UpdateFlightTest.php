@@ -50,8 +50,8 @@ class UpdateFlightTest extends TestCase
 
         $response = $this->putJson('/api/flights/1', $updatedAttributes);
         $response->assertOk();
-        $response->assertJson([
-            'success' => 'Flight updated succesfully.'
+        $this->assertDatabaseHas('flights', [
+            'airline_id' =>  $newAirline->id,
         ]);
     }
 

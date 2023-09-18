@@ -22,7 +22,7 @@ class DeleteFlightTest extends TestCase
 
         $airline->cities()->sync([$originCity->id, $destinationCity->id]);
 
-        Flight::create([
+        $flight = Flight::create([
             'id' => 1,
             'airline_id' => $airline->id,
             'departure_date' => '2023-11-10 09:10:13',
@@ -36,6 +36,7 @@ class DeleteFlightTest extends TestCase
         $response->assertJson([
             'success' => 'Flight deleted.'
         ]);
+        $this->assertSoftDeleted($flight);
     }
 
     public function test_error_when_deleting_flight_that_doesnt_exists(): void

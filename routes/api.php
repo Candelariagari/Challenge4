@@ -20,7 +20,7 @@ Route::group(['prefix' => 'airlines'], function () {
 });
 
 Route::group(['prefix' => 'flights'], function () {
-    Route::post('/', [FlightController::class, 'store']); //me da error 404
+    Route::post('/', [FlightController::class, 'store']);
     Route::delete('/{flight}', [FlightController::class, 'delete']);
     Route::put('/{flight}', [FlightController::class, 'update']);
 });
