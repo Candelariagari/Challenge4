@@ -57,4 +57,10 @@ class AirlineController extends Controller
             'success'=>'Airline updated!'
         ]);
     }
+
+    public function all(): JsonResponse
+    {
+        $airlines = Airline::all();
+        return response()->json($airlines);
+    }
 }
