@@ -1,3 +1,4 @@
+@stack('scripts')
 <x-layout>
     <x-table>
         @if (count($flights) == 0)
@@ -61,12 +62,23 @@
         @endif
     </x-table>
 
-    <div class="bg-gray-50 border border-black border-opacity-5 rounded-xl text-center py-5 mx-20 mt-12">
-        <button type="button" href="#" class="bg-blue-900 text-white bold py-2 px-8 hover:bgg-blue-500 uppercase rounded-xl font-bold">Add a new flight</button>
+    <div class="bg-gray-50 border border-black border-opacity-5 rounded-xl  py-5 mx-20 mt-12">
+        <h2 class="ml-10 font-bold font-serif">Add a new flight</h2>
+        <div class="text-center mx-10" id="root">
+            <input type="text" v-model="greeting">
+            @{{ greeting }}
+        </div>
+        {{-- PQ NO ANDA ESTO?<airlines-options></airlines-options> --}}
+        <div id="app" class="mx-10">
+            <airline-dropdown airlineSelected="handleAirlineSelected"></airline-dropdown>
+            <origins-dropdown :selected-airline="selectedAirline" originSelected="handleOriginSelected"></origins-dropdown>
+        </div>
+        {{-- <button type="button" href="#" class="bg-blue-900 text-white bold py-2 px-8 hover:bgg-blue-500 uppercase rounded-xl font-bold">Add a new flight</button> --}}
     </div>
 </x-layout>
 
-<script>
+
+<script type="module">
     function deleteFlight(button)
     {
         var flightId = button.id;
@@ -92,5 +104,37 @@
         });
     });
 
+    Vue.createApp({
+        data(){
+            return {
+                greeting: 'Hello World!'
+            };
+        }
+    }).mount('#root');
 
+
+    import AirlineDropdown from "{{ asset('js/components/Airline-dropdown.js') }}";
+    import OriginCitiesDropdown from "{{ asset('js/components/origins-dropdown.js')}}";
+    const app = Vue.createApp({
+        components: {
+                'airline-dropdown': AirlineDropdown,
+                'origins-dropdown': OriginCitiesDropdown
+        },
+        data() {
+            return {
+                selectedAirline: null,
+                selectedOrigin: null
+            };
+        },
+        methods: {
+            handleAirlineSelected(airlineId) {
+                this.selectedAirline = airlineId;
+            },
+            handleOriginSelected(cityId) {
+                this.selectedOrigin = cityId;
+            }
+        }
+    });
+
+    app.mount('#app');
 </script>

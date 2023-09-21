@@ -41,4 +41,10 @@ class CityController extends Controller
         $city->update($request->toArray());
         return response()->json($city);
     }
+
+    public function all(): JsonResponse
+    {
+        $cities = City::all();
+        return response()->json($cities);
+    }
 }
