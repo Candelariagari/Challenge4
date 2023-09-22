@@ -47,4 +47,11 @@ class CityController extends Controller
         $cities = City::all();
         return response()->json($cities);
     }
+
+    public function getAirlines(City $city): JsonResponse
+    {
+        $airlines = $city->airlines;
+
+        return response()->json($airlines);
+    }
 }
