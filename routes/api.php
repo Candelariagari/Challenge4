@@ -12,7 +12,7 @@ Route::group(['prefix' => 'cities'], function (){
     Route::delete('/{city}', [CityController::class, 'delete']);
     Route::put('/{city}', [CityController::class, 'update']);
     Route::get('/', [CityController::class, 'all']);
-    Route::get('/airlines/{city}', [CityController::class, 'getAirlines']);
+    // Route::get('/airlines/{city}', [CityController::class, 'getAirlines']);
 });
 
 Route::group(['prefix' => 'airlines'], function () {
@@ -20,7 +20,7 @@ Route::group(['prefix' => 'airlines'], function () {
     Route::delete('/{airline}', [AirlineController::class, 'delete']);
     Route::put('/{airline}', [AirlineController::class, 'update']);
     Route::get('/', [AirlineController::class, 'all']);
-    Route::get('/cities/{airline}', [AirlineController::class, 'citiesOfAirline']);
+    Route::get('/{airline}/cities', [AirlineController::class, 'citiesOfAirline']);
 });
 
 Route::group(['prefix' => 'flights'], function () {

@@ -1,6 +1,6 @@
 const OriginCitiesDropdown = {
     template: `<select v-model="selectedOrigin"  id="selectOrigin">
-                    <option v-for="city in posibleOrigins" :key="city.id" :value="city.id">{{ city.name }}</option>
+                    <option v-for="city in cities" :key="city.id" :value="city.id">{{ city.name }}</option>
                 </select>`,
     data() {
         return {
@@ -24,14 +24,13 @@ const OriginCitiesDropdown = {
         this.getCities();
 
         $(this.$el).select2({
-            placeholder: "Select Airline",
+            placeholder: "Posible origins...",
             width: '200px'
         });
     },
     watch: {
         selectedOriginCity() {
-            // Emitir un evento para que AirlineDropdown pueda actualizar su lista de aerolíneas según la ciudad seleccionada
-            this.$emit('originSelected', this.selectedOrigin);
+            this.$emit('origin-selected', this.selectedOrigin);
         },
     },
     methods: {

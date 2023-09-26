@@ -1,6 +1,7 @@
 const createFlightForm = {
-    template: ` <airline-dropdown :airlines="posibleAirlines" @airline-selected="handleSelectedAirline" :originCity="originSelected"></airline-dropdown>
-                <cities-dropdown :cities="posibleOriginCities" :airline="airlineSelected" @origin-selected="handleSelectedOrigin"></cities-dropdown>`,
+    template: ` <airline-dropdown :airlines="posibleAirlines" @airline-selected="handleSelectedAirline"></airline-dropdown>
+                <cities-dropdown :label="originlabel" :cities="posibleOriginCities" @city-changed="handleSelectedOrigin"></cities-dropdown>
+                <cities-dropdown :label="destinationlabel" :cities="posibleDestinationCities" @city-changed="handleSelectedDestination"></cities-dropdown>`,
     components: {
         'airline-dropdown': {
             template: ` <select v-model="selectedAirline"  id="airlines">
@@ -31,101 +32,72 @@ const createFlightForm = {
             }
         },
         'cities-dropdown': {
-            template: `<select v-model="selectedOrigin"  id="selectOrigin">
+            template: `<select v-model="selectedCity"  :id="'select' + label">
                             <option v-for="city in cities" :key="city.id" :value="city.id">{{ city.name }}</option>
                         </select>`,
             data() {
                 return {
-                    selectedOrigin: null,
+                    selectedCity: null,
                 };
             },
-            props: ['cities'],
+            props: ['cities', 'label'],
             mounted() {
                 const select2Options = {
-                    placeholder: "Posible origins...",
+                    placeholder: `Posible ${this.label}s ...`,
                     width: '200px'
                 };
 
                 $(this.$el).select2(select2Options).on('change', () => {
-                    this.selectedOrigin = $(this.$el).val();
+                    this.selectedCity = $(this.$el).val();
                     this.$forceUpdate();
                 });
             },
-            computed: {
-
-            },
-            emits: ['origin-selected'],
+            emits: ['city-changed'],
             watch: {
-                selectedOrigin(newval) {
-                    this.$emit('origin-selected', newval);
+                selectedCity(newval) {
+                    this.$emit('city-changed', newval);
                 }
-            }
-        },
+            },
+
+        }
     },
     data() {
         return {
-            selectedAirlineId: null,
+            selectedAirline: null,
             posibleAirlines: null,
+            posibleOriginCities: null,
             selectedOriginId: null,
-            posibleOriginCities: null
+            posibleDestinationCities: null,
+            originlabel: "orgin",
+            destinationlabel: "destination"
         };
     },
     methods: {
         handleSelectedAirline(value){
-            this.selectedAirlineId = parseInt(value);
+            this.selectedAirline = this.posibleAirlines.find(airline => airline.id == parseInt(value));
+            this.posibleOriginCities = this.selectedAirline.cities;
         },
-
         handleSelectedOrigin(value){
             this.selectedOriginId = parseInt(value);
+        },
+        handleSelectedDestination(value){
+            this.selectedDestinationId = parseInt(value);
         },
         getAirlines() {
             axios.get('api/airlines')
                 .then(response => {
                     this.posibleAirlines = response.data;
                 });
-        },
-        getCities() {
-            axios.get('api/cities')
-                .then(response => {
-                    this.posibleOriginCities = response.data;
-                });
-        },
-        getCitiesOfAirline(airlineId) {
-            axios.get(`api/airlines/cities/${airlineId}`)
-                .then(response =>{
-                    if(response.data.length == 0){
-                        this.posibleOriginCities = null;
-                    } else{
-                        this.posibleOriginCities = response.data;
-                    }
-                });
-        },
-        getAirlinesofCity(cityId){
-            axios.get(`api/cities/airlines/${cityId}`)
-                .then(response => {
-                        if(response.data.length == 0){
-                            this.posibleAirlines = null
-                        } else {
-                            this.posibleAirlines = response.data;
-                        }
-                });
         }
     },
     mounted() {
         this.getAirlines();
-        this.getCities();
     },
     computed: {
-        airlineSelected(){
-            if(this.selectedAirlineId){
-                this.getCitiesOfAirline(this.selectedAirlineId);
-                return this.posibleAirlines.find(airline => airline.id === this.selectedAirlineId);
-
-            }
-        },
         originSelected() {
             if(this.selectedOriginId){
-                this.getAirlinesofCity(this.selectedOriginId);
+                console.log("holsa");
+                this.posibleDestinationCities = this.posibleOriginCities.filter(city => city.id != this.selectedOriginId);
             }
         }
     }
