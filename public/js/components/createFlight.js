@@ -17,7 +17,7 @@ const createFlightForm = {
     },
     data() {
         return {
-            selectedAirlineId: null,
+            selectedAirline: null,
             posibleAirlines: null,
             posibleOriginCities: null,
             selectedOriginId: null,
@@ -58,6 +58,9 @@ const createFlightForm = {
             }else{
                 this.selectedOriginId = parseInt(value);
             }
+        },
+        handleSelectedDestination(value){
+            this.selectedDestinationId = parseInt(value);
         },
         handleSelectedDestination(value){
             this.selectedDestinationId = parseInt(value);
