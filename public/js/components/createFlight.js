@@ -1,65 +1,19 @@
+import airlineSelect from "./Airline-dropdown.js";
+import citiesDropdowns from "./selectCities.js";
+import datePicker from "./dates.js";
+
 const createFlightForm = {
-    template: ` <airline-dropdown :airlines="posibleAirlines" @airline-selected="handleSelectedAirline"></airline-dropdown>
-                <cities-dropdown :label="originlabel" :cities="posibleOriginCities" @city-changed="handleSelectedOrigin"></cities-dropdown>
-                <cities-dropdown :label="destinationlabel" :cities="posibleDestinationCities" @city-changed="handleSelectedDestination"></cities-dropdown>`,
+    template: ` <div class="lg:grid lg:grid-cols-5">
+                    <airline-dropdown :airlines="posibleAirlines" @airline-selected="handleSelectedAirline"></airline-dropdown>
+                    <date-picker :label="departureLabel"  :minDate="minDepDate" :maxDate="oneYear" :error="errorDepartureTime" v-model:mydate="depDate"></date-picker>
+                    <cities-dropdown :label="originlabel" :cities="posibleOriginCities" @city-changed="handleSelectedOrigin"></cities-dropdown>
+                    <date-picker :label="arrivalLabel" :minDate="minArrivalDate" :maxDate="maxArrivalDate" :error="errorArivalTime" v-model:mydate="arrivalDate"></date-picker>
+                    <cities-dropdown :label="destinationlabel" :cities="posibleDestinationCities" @city-changed="handleSelectedDestination"></cities-dropdown>
+                </div>`,
     components: {
-        'airline-dropdown': {
-            template: ` <select v-model="selectedAirline"  id="airlines">
-                            <option v-for="airline in airlines" :key="airline.id" :value="airline.id">{{ airline.name }}</option>
-                        </select>`,
-            data() {
-                return {
-                    selectedAirline: null
-                };
-            },
-            mounted() {
-                const select2Options = {
-                    placeholder: "Posible airlines...",
-                    width: '200px'
-                };
-
-                $(this.$el).select2(select2Options).on('change', () => {
-                    this.selectedAirline = $(this.$el).val();
-                    this.$forceUpdate();
-                });
-            },
-            props: ['airlines'],
-            emits: ['airline-selected'],
-            watch: {
-                selectedAirline(newval) {
-                    this.$emit('airline-selected', newval);
-                }
-            }
-        },
-        'cities-dropdown': {
-            template: `<select v-model="selectedCity"  :id="'select' + label">
-                            <option v-for="city in cities" :key="city.id" :value="city.id">{{ city.name }}</option>
-                        </select>`,
-            data() {
-                return {
-                    selectedCity: null,
-                };
-            },
-            props: ['cities', 'label'],
-            mounted() {
-                const select2Options = {
-                    placeholder: `Posible ${this.label}s ...`,
-                    width: '200px'
-                };
-
-                $(this.$el).select2(select2Options).on('change', () => {
-                    this.selectedCity = $(this.$el).val();
-                    this.$forceUpdate();
-                });
-            },
-            emits: ['city-changed'],
-            watch: {
-                selectedCity(newval) {
-                    this.$emit('city-changed', newval);
-                }
-            },
-
-        }
+        'airline-dropdown': airlineSelect,
+        'cities-dropdown': citiesDropdowns,
+        'date-picker': datePicker
     },
     data() {
         return {
@@ -69,7 +23,19 @@ const createFlightForm = {
             selectedOriginId: null,
             posibleDestinationCities: null,
             originlabel: "orgin",
-            destinationlabel: "destination"
+            destinationlabel: "destination",
+
+            departureLabel: "Departure Date & Time",
+            minDepDate: null,
+            oneYear: null,
+            depDate: null,
+            errorDepartureTime: false,
+
+            arrivalLabel: "Arrival Date & Time",
+            arrivalDate: null,
+            minArrivalDate: null,
+            maxArrivalDate: null,
+            errorArivalTime: false,
         };
     },
     methods: {
@@ -88,16 +54,45 @@ const createFlightForm = {
                 .then(response => {
                     this.posibleAirlines = response.data;
                 });
+        },
+        minDepartureDate() {
+            var now = new Date();
+            now.setHours(now.getHours() - 3);
+            this.minDepDate  = now.toISOString().slice(0, 16);
+        },
+        maxDate() {
+            const oneYearLater = new Date();
+            oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+            oneYearLater.setHours(0, 0, 0, 0);
+            this.oneYear = oneYearLater.toISOString().slice(0, 16);
         }
     },
     mounted() {
         this.getAirlines();
+        this.minDepartureDate();
+        this.maxDate();
     },
-    computed: {
-        originSelected() {
-            if(this.selectedOriginId){
-                console.log("holsa");
-                this.posibleDestinationCities = this.posibleOriginCities.filter(city => city.id != this.selectedOriginId);
+    watch: {
+        selectedOriginId(value){
+            this.posibleDestinationCities = this.posibleOriginCities.filter(city => city.id != value);
+        },
+        depDate(date) {
+            this.minArrivalDate = date;
+
+            const depDateObj = new Date(date);
+            depDateObj.setDate(depDateObj.getDate() + 3);
+            this.maxArrivalDate = depDateObj.toISOString().slice(0, 16);
+
+            this.errorDepartureTime = false;
+            if(date < this.minDepDate){
+                this.errorDepartureTime = true;
+            }
+
+        },
+        arrivalDate(date){
+            this.errorArivalTime = false;
+            if(date < this.minArrivalDate){
+                this.errorArivalTime = true;
             }
         }
     }

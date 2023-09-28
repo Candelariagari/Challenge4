@@ -4,21 +4,19 @@
     <x-table :flights="$flights" />
 
     <div class="bg-gray-50 border border-black border-opacity-5 rounded-xl  py-5 mx-20 mt-12">
-        <h2 class="ml-10 font-bold font-serif">Add a new flight</h2>
+        <h2 class="ml-10 font-bold font-serif text-xl mb-5">Add a new flight</h2>
 
         <div id="app" class="mx-10">
-            <create-flight></create-flight>
-            {{-- <airline-dropdown v-on:click="handleAirlineSelected"></airline-dropdown>
-
-            <label>
-                Select Origin City
-                <origins-dropdown :selected-airline="sele" v-on:click="handleOriginSelected"></origins-dropdown>
-
-            </label> --}}
+            <form action="">
+                <create-flight></create-flight>
+                <div class="flex justify-center">
+                <button class="bg-blue-400 text-white bold py-2 px-8 hover:bgg-blue-500 uppercase rounded-xl flex"
+                        id="addFlight">submit</button>
+                </div>
+            </form>
         </div>
     </div>
 </x-layout>
-
 
 <script type="module">
     function deleteFlight(button)
@@ -27,10 +25,10 @@
         var rowToDelete = document.getElementById('row' + flightId);
 
         axios.delete(`/api/flights/${flightId}`)
-                .then(function (msg){
-                    alert("Airline was removed!");
-                    rowToDelete.parentNode.removeChild(rowToDelete);
-                });
+            .then(function (msg){
+                alert("Airline was removed!");
+                rowToDelete.parentNode.removeChild(rowToDelete);
+            });
     }
 
     var deleteButtons = document.querySelectorAll('.deleteButton');

@@ -11,6 +11,8 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue@3.2.29"></script>
 <script type="module" src="{{ asset('js/components/Airline-dropdown.js') }}"></script>
+<script src="https://unpkg.com/@vuepic/vue-datepicker@latest"></script>
+<link rel="stylesheet" href="https://unpkg.com/@vuepic/vue-datepicker@latest/dist/main.css">
 
 
 
