@@ -17,7 +17,7 @@ const createFlightForm = {
     },
     data() {
         return {
-            selectedAirline: null,
+            selectedAirlineId: null,
             posibleAirlines: null,
             posibleOriginCities: null,
             selectedOriginId: null,

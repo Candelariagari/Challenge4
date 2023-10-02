@@ -18,12 +18,6 @@ class FlightController extends Controller
             'flights' => Flight::paginate(10)
         ]);
     }
-    public function store(StoreFlightRequest $request): JsonResponse
-    {
-        $newflight = Flight::create($request->toArray());
-
-        return response()->json($newflight);
-    }
 
     public function store(UpsertFlightRequest $request): JsonResponse
     {
