@@ -25,4 +25,7 @@ Route::group(['prefix' => 'airlines'], function (){
     Route::get('/{airline}',[AirlineController::class, 'edit']);
 });
 
-Route::get('/flights', [FlightController::class, 'index']);
+Route::group(['prefix' => 'flights'], function (){
+    Route::get('/', [FlightController::class, 'index']);
+    Route::get('/{flight}',[FlightController::class, 'edit']);
+});

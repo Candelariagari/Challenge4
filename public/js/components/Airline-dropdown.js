@@ -7,7 +7,7 @@ const airlineSelect = {
                 </div>`,
             data() {
                 return {
-                    selectedAirline: null
+                    selectedAirline: this.airline,
                 };
             },
             mounted() {
@@ -21,11 +21,16 @@ const airlineSelect = {
                     this.$forceUpdate();
                 });
             },
-            props: ['airlines'],
+            props: ['airlines', 'airline'],
             emits: ['airline-selected'],
             watch: {
                 selectedAirline(newval) {
                     this.$emit('airline-selected', newval);
+                },
+                airline(newval){
+                    this.selectedAirline = newval;
+                    $(this.$el).find('select').val(this.selectedAirline).trigger('change.select2');
+
                 }
             }
 };

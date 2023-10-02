@@ -10,7 +10,7 @@ const citiesDropdowns = {
             selectedCity: null,
         };
     },
-    props: ['cities', 'label'],
+    props: ['cities', 'label', 'preSelected'],
     mounted() {
         const select2Options = {
             placeholder: `Posible ${this.label}s ...`,
@@ -25,6 +25,11 @@ const citiesDropdowns = {
     watch: {
         selectedCity(newval) {
             this.$emit('city-changed', newval);
+        },
+        preSelected(newval){
+            this.selectedCity = newval;
+            $(this.$el).find('select').val(this.selectedCity).trigger('change.select2');
+
         }
     }
 };

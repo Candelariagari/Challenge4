@@ -7,6 +7,7 @@ use Illuminate\Http\JsonResponse;
 use App\Http\Requests\StoreFlightRequest;
 use App\Http\Requests\UpdateFlightRequest;
 use App\Models\Airline;
+use Exception;
 use Illuminate\View\View;
 
 class FlightController extends Controller
@@ -20,7 +21,7 @@ class FlightController extends Controller
     public function store(StoreFlightRequest $request): JsonResponse
     {
         $newflight = Flight::create($request->toArray());
-
+        $newflight->load(['origin', 'destination']);
         return response()->json($newflight);
     }
 
@@ -32,7 +33,12 @@ class FlightController extends Controller
         ]);
     }
 
-    public function update(UpdateFlightRequest $request, Flight $flight)
+    public function edit(Flight $flight): View
+    {
+        return view('flights.updateForm', ['flight' => $flight]);
+    }
+
+    public function update(UpdateFlightRequest $request, Flight $flight): JsonResponse
     {
         $updatedFlight = $flight->update($request->toArray());
 

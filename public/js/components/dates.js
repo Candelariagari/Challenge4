@@ -9,7 +9,7 @@ const datePicker = {
             mydate: null,
         }
     },
-    props: ['label', 'minDate', 'maxDate', 'error'],
+    props: ['label', 'minDate', 'maxDate', 'error', 'preSelected'],
     methods: {
         emitValues() {
           this.$emit('update:mydate', this.mydate);
@@ -17,6 +17,9 @@ const datePicker = {
       },
       watch: {
         mydate: 'emitValues',
+        preSelected(value){
+            this.mydate = value;
+        }
       },
 };
 
