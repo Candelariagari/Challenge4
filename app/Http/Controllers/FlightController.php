@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Flight;
-use Illuminate\Http\JsonResponse;
-use App\Http\Requests\StoreFlightRequest;
-use App\Http\Requests\UpdateFlightRequest;
-use App\Models\Airline;
 use Exception;
+use App\Models\Flight;
+use App\Models\Airline;
 use Illuminate\View\View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Routing\Controller;
+use App\Http\Requests\StoreFlightRequest;
+use Illuminate\Contracts\Session\Session;
+use App\Http\Requests\UpdateFlightRequest;
 
 class FlightController extends Controller
 {
@@ -18,10 +20,12 @@ class FlightController extends Controller
             'flights' => Flight::paginate(10)
         ]);
     }
+
     public function store(StoreFlightRequest $request): JsonResponse
     {
         $newflight = Flight::create($request->toArray());
         $newflight->load(['origin', 'destination']);
+
         return response()->json($newflight);
     }
 

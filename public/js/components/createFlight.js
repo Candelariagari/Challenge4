@@ -53,7 +53,11 @@ const createFlightForm = {
             }
         },
         handleSelectedOrigin(value){
-            this.selectedOriginId = parseInt(value);
+            if(value == null){
+                this.selectedOriginId = null;
+            }else{
+                this.selectedOriginId = parseInt(value);
+            }
         },
         handleSelectedDestination(value){
             this.selectedDestinationId = parseInt(value);
