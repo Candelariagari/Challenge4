@@ -54,7 +54,7 @@ class UpsertFlightRequest extends FormRequest
         ];
     }
 
-    public function getDatesId() : array
+    public function getDates() : array
     {
         return [
             'departure_date' => $this->input('departure_date'),
