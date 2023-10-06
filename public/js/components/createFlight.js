@@ -62,9 +62,6 @@ const createFlightForm = {
         handleSelectedDestination(value){
             this.selectedDestinationId = parseInt(value);
         },
-        handleSelectedDestination(value){
-            this.selectedDestinationId = parseInt(value);
-        },
         getAirlines() {
             return axios.get('/api/airlines')
                 .then(response => {

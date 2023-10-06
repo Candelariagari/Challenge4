@@ -39,7 +39,7 @@
                         <button class="font-bold" id="cities_id">Id</button>
                     </th>
                     <th class="text-left text-gray-900 px-6 py-4">
-                        <button class="font-bold" id="cities">City Name</button>
+                        <button class="font-bold" id="cities_name">City Name</button>
                     </th>
                     <th class="text-left text-gray-900 px-6 py-4">
                         Departures
@@ -176,7 +176,7 @@
             window.location.search = params.toString();
         });
 
-        $('#cities').on('click', function(e){
+        $('#cities_name').on('click', function(e){
             params.delete('order_by');
             params.append('order_by', 'name');
             localStorage.setItem('selectedAirline', selectElement.value);
@@ -185,7 +185,6 @@
 
         selectElement.addEventListener('change', function() {
             params.delete('airline');
-            // params.append('airline', this.value);
             if(this.value != 0){
                 params.append('airline', this.value)
             }

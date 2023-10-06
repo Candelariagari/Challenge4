@@ -77,8 +77,6 @@ class CityController extends Controller
     public function getAirlines(City $city): JsonResponse
     {
         $airlines = $city->airlines;
-
         return response()->json($airlines);
     }
-
 }

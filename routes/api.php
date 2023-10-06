@@ -25,9 +25,3 @@ Route::group(['prefix' => 'flights'], function () {
     Route::delete('/{flight}', [FlightController::class, 'delete']);
     Route::put('/{flight}', [FlightController::class, 'update']);
 });
-
-Route::group(['prefix' => 'flights'], function () {
-    Route::post('/', [FlightController::class, 'store']);
-    Route::delete('/{flight}', [FlightController::class, 'delete']);
-    Route::put('/{flight}', [FlightController::class, 'update']);
-});
