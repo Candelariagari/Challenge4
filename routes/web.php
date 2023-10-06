@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\AirlineController;
+use App\Http\Controllers\FlightController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,4 +23,9 @@ Route::group(['prefix' => 'cities'], function (){
 Route::group(['prefix' => 'airlines'], function (){
     Route::get('/', [AirlineController::class, 'index']);
     Route::get('/{airline}',[AirlineController::class, 'edit']);
+});
+
+Route::group(['prefix' => 'flights'], function (){
+    Route::get('/', [FlightController::class, 'index']);
+    Route::get('/{flight}',[FlightController::class, 'edit']);
 });

@@ -17,13 +17,13 @@ class CityController extends Controller
         ]);
     }
 
-    public function store(StoreOrUpdateCityRequest $request) : json_decode
+    public function store(StoreOrUpdateCityRequest $request) : JsonResponse
     {
         $newCity = City::create($request->toArray());
         return response()->json($newCity);
     }
 
-    public function delete(City $city) : json_decode
+    public function delete(City $city) : JsonResponse
     {
         $city->delete();
         return response()->json([
@@ -36,9 +36,22 @@ class CityController extends Controller
         return view('cities.updateForm', ['city' => $city]);
     }
 
-    public function update(City $city, StoreOrUpdateCityRequest $request) : json_decode
+    public function update(City $city, StoreOrUpdateCityRequest $request) : JsonResponse
     {
         $city->update($request->toArray());
         return response()->json($city);
+    }
+
+    public function all(): JsonResponse
+    {
+        $cities = City::all();
+        return response()->json($cities);
+    }
+
+    public function getAirlines(City $city): JsonResponse
+    {
+        $airlines = $city->airlines;
+
+        return response()->json($airlines);
     }
 }

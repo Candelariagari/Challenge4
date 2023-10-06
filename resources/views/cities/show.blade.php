@@ -63,7 +63,7 @@
         </div>
     @endif
 
-    <div class="mt-10 flex justify-center items-center" id="newsLetter">
+    <div class="mt-10 flex justify-center items-center">
         <div class="relative inline-block mx-auto lg:bg-gray-200 rounded-full">
             <form class="lg:flex">
                 <div class="lg:py-3 lg:px-5 flex items-center">
