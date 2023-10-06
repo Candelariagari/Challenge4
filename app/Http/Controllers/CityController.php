@@ -25,13 +25,10 @@ class CityController extends Controller
         if($request->has('airline')){
             $airlineId = $request->input('airline');
             $airline = Airline::with('cities')->find($airlineId);
-            $cities = $airline->cities();
+            $cities = $airline->cities()
+                            ->orderBy($request->input('order_by'), $request->input('order_by') == 'name' ? 'asc' : 'desc')
+                            ->paginate(10);
 
-            if($request->has('order_by')){
-                $cities = $cities->orderBy($request->input('order_by'), $request->input('order_by') == 'name' ? 'asc' : 'desc');
-            }
-
-            $cities = $cities->paginate(10);
             return view('cities.show', [
                 'cities' => $cities,
                 'airlines' => $airlines
@@ -80,3 +77,4 @@ class CityController extends Controller
         return response()->json($airlines);
     }
 }
+
