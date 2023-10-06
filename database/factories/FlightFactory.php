@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Airline;
+use Carbon\Carbon;
 use App\Models\City;
+use App\Models\Airline;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -22,7 +23,7 @@ class FlightFactory extends Factory
             'airline_id' => Airline::factory()->create()->id,
             'departure_date' => $this->faker->dateTimeBetween('+1 day', '+1 year'),
             'origin_id' => City::factory()->create()->id,
-            'arrival_date' => $this->faker->dateTimeBetween('+2 day', '+1 year'),
+            'arrival_date' => fn (array $attributes) => Carbon::parse($attributes['departure_date'])->copy()->addDay()->toDateTimeString(),
             'destination_id' => City::factory()->create()->id,
         ];
     }

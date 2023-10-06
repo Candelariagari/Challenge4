@@ -18,7 +18,6 @@ class Flight extends Model
     {
         return $this->belongsTo(Airline::class);
     }
-//belongstoone no me aparecia belongsToOne
 
     public function origin() : BelongsTo
     {

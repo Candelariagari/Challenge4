@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\City;
 use App\Models\Airline;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class StoreFlightTest extends TestCase
@@ -19,20 +20,23 @@ class StoreFlightTest extends TestCase
     {
         parent::setUp();
 
-        $this->airline = Airline::create(['id' => 1, 'name' => 'Iberia', 'description' => 'Great airline.']);
-        $this->originCity = City::create(['id' => 1, 'name' => 'Montevideo']);
-        $this->destinationCity = City::create(['id' => 2, 'name' => 'Miami']);
+        $this->airline = Airline::factory()->create();
+        $this->originCity = City::factory()->create();
+        $this->destinationCity = City::factory()->create();
     }
 
     public function testStoresCorrectlyNewFlight(): void
     {
         $this->airline->cities()->sync([$this->originCity->id, $this->destinationCity->id]);
+        $date = Carbon::today()->addDay();
+        $depDate = $date->format('Y-m-d H:i:s');
+        $arrival_date = $date->addDays(3)->format('Y-m-d H:i:s');
 
         $newFlightAttributes = [
             'airline_id' => $this->airline->id,
-            'departure_date' => '2023-11-10 09:10:13',
+            'departure_date' => $depDate,
             'origin_id' => $this->originCity->id,
-            'arrival_date' => '2023-11-10 12:10:13',
+            'arrival_date' =>  $arrival_date,
             'destination_id' => $this->destinationCity->id
         ];
 
@@ -44,12 +48,15 @@ class StoreFlightTest extends TestCase
     public function test_doesnt_stores_flight_with_airline_that_doesnt_operates_in_depcity(): void
     {
         $this->airline->cities()->sync([$this->originCity->id]);
+        $date = Carbon::today()->addDay();
+        $depDate = $date->format('Y-m-d H:i:s');
+        $arrival_date = $date->addDays(3)->format('Y-m-d H:i:s');
 
         $newFlightAttributes = [
             'airline_id' => $this->airline->id,
-            'departure_date' => '2023-11-10 09:10:13',
+            'departure_date' => $depDate,
             'origin_id' => $this->originCity->id,
-            'arrival_date' => '2023-11-10 12:10:13',
+            'arrival_date' => $arrival_date,
             'destination_id' => $this->destinationCity->id
         ];
 
@@ -61,12 +68,15 @@ class StoreFlightTest extends TestCase
     public function test_doesnt_stores_flight_with_same_departurecity_and_arrivalcity(): void
     {
         $this->airline->cities()->sync([$this->originCity->id]);
+        $date = Carbon::today()->addDay();
+        $depDate = $date->format('Y-m-d H:i:s');
+        $arrival_date = $date->addDays(3)->format('Y-m-d H:i:s');
 
         $newFlightAttributes = [
             'airline_id' => $this->airline->id,
-            'departure_date' => '2023-11-10 09:10:13',
+            'departure_date' => $depDate,
             'origin_id' => $this->originCity->id,
-            'arrival_date' => '2023-11-10 12:10:13',
+            'arrival_date' => $arrival_date,
             'destination_id' => $this->originCity->id
         ];
 
@@ -78,12 +88,15 @@ class StoreFlightTest extends TestCase
     public function test_doesnt_stores_flight_with_arrivalDate_before_depDate(): void
     {
         $this->airline->cities()->sync([$this->originCity->id, $this->destinationCity->id]);
+        $date = Carbon::today()->addDay();
+        $arrival_date = $date->format('Y-m-d H:i:s');
+        $depDate = $date->addDays(3)->format('Y-m-d H:i:s');
 
         $newFlightAttributes = [
             'airline_id' => $this->airline->id,
-            'departure_date' => '2023-11-10 12:10:13',
+            'departure_date' => $depDate,
             'origin_id' => $this->originCity->id,
-            'arrival_date' => '2023-11-10 09:10:13',
+            'arrival_date' => $arrival_date,
             'destination_id' => $this->destinationCity->id
         ];
 

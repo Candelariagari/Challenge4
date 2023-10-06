@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateFlightRequest extends FormRequest
+class UpsertFlightRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -46,7 +46,7 @@ class UpdateFlightRequest extends FormRequest
         return $this->integer('airline_id');
     }
 
-    public function cities() : array
+    public function getCitiesId() : array
     {
         return [
             'origin_id' => (integer) $this->integer('origin_id'),
@@ -54,7 +54,7 @@ class UpdateFlightRequest extends FormRequest
         ];
     }
 
-    public function updatedSchedules()
+    public function getDatesId() : array
     {
         return [
             'departure_date' => $this->input('departure_date'),
