@@ -30,6 +30,22 @@
                 <h1 class="font-serif text-3xl font-semibold text-sky-100 tracking-widest">Travel Agency</h1>
             </div>
 
+            <div class="flex ml-auto">
+                <button type="button" onclick="window.location.href='/cities'"
+                    class="border border-gray text-gray-500 text-xs uppercase font-semibold py-2 px-4 mx-2 rounded-xl hover:bg-blue-300 hover:text-white">
+                    cities
+                </button>
+
+                <button type="button" onclick="window.location.href='/airlines'"
+                    class="border border-gray text-gray-500 text-xs uppercase font-semibold py-2 px-4 mx-2 rounded-xl hover:bg-blue-300 hover:text-white">
+                    airlines
+                </button>
+
+                <button type="button" onclick="window.location.href='/flights'"
+                    class="border border-gray text-gray-500 text-xs uppercase font-semibold py-2 px-4 mx-2 rounded-xl hover:bg-blue-300 hover:text-white">
+                    flights
+                </button>
+            </div>
         </nav>
                  {{  $slot  }}
     </section>

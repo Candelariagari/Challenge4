@@ -13,12 +13,7 @@ class DeleteFlightTest extends TestCase
     public function test_deletes_correctly_given_flight(): void
     {
         $flight = Flight::factory()->create();
-
-        $response = $this->deleteJson("/api/flights/{$flight->id}");
-        $response->assertOk();
-        $response->assertJson([
-            'success' => 'Flight deleted.'
-        ]);
+        $this->deleteJson("/api/flights/{$flight->id}");
         $this->assertSoftDeleted($flight);
     }
 

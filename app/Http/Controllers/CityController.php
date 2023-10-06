@@ -3,17 +3,40 @@
 namespace App\Http\Controllers;
 
 use App\Models\City;
+use App\Models\Airline;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\View\View;
 use App\Http\Requests\StoreOrUpdateCityRequest;
-use Illuminate\Http\JsonResponse;
 
 class CityController extends Controller
 {
-    public function index() : View
+    public function index(Request $request) : View
     {
+        $airlines = Airline::all();
+
+        if($request->has('order_by') && !$request->has('airline')){
+            return view('cities.show', [
+                'cities' => City::orderBy($request->input('order_by'), $request->input('order_by') == 'name' ? 'asc' : 'desc')->paginate(10),
+                'airlines' => $airlines
+            ]);
+        }
+
+        if($request->has('airline')){
+            $airlineId = $request->input('airline');
+            $airline = Airline::with('cities')->find($airlineId);
+            $cities = $airline->cities()
+                            ->orderBy($request->input('order_by'), $request->input('order_by') == 'name' ? 'asc' : 'desc')
+                            ->paginate(10);
+
+            return view('cities.show', [
+                'cities' => $cities,
+                'airlines' => $airlines
+            ]);
+        }
         return view('cities.show', [
-            'cities' => City::paginate(10)
+            'cities' => City::paginate(10),
+            'airlines' => $airlines
         ]);
     }
 
@@ -51,7 +74,7 @@ class CityController extends Controller
     public function getAirlines(City $city): JsonResponse
     {
         $airlines = $city->airlines;
-
         return response()->json($airlines);
     }
 }
+
