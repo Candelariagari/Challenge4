@@ -30,7 +30,7 @@
         @foreach ($flights as $flight)
             <tr id="row{{  $flight->id  }}">
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {{  $flight->departure_date  }}
+                    {{  $flight->formatted_date('departure_date')  }}
                 </td>
 
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
@@ -38,7 +38,7 @@
                 </td>
 
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {{  $flight->arrival_date  }}
+                    {{  $flight->formatted_date('arrival_date')  }}
                 </td>
 
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
