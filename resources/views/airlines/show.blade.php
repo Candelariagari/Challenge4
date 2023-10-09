@@ -207,7 +207,7 @@
             addRow(airline);
         })
         .catch(error => {
-            console.error(error);
+            alert("Could not create Airline.");
         });
     });
 
