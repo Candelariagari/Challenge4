@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Airline extends Model
 {
@@ -22,5 +23,16 @@ class Airline extends Model
     public function flights() : HasMany
     {
         return $this->hasMany(Flight::class, 'airline_id');
+    }
+
+    public function active_flights()
+    {
+        $today = Carbon::now();
+        $flights = $this->flights()
+                            ->whereDate('departure_date', '<=', $today)
+                            ->whereDate('arrival_date', '>=', $today)
+                            ->get();
+
+        return $flights;
     }
 }
