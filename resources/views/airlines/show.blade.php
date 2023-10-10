@@ -49,7 +49,7 @@
                                     Description
                                 </th>
                                 <th class="text-left text-gray-900 px-6 py-4">
-                                    Flights
+                                     Active Flights
                                 </th>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200" id="airlinesTable">
@@ -68,7 +68,7 @@
                                         </td>
 
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                                {{  $airline->active_flights()->count()  }}
+                                                {{  $airline->active_flights  }}
                                         </td>
 
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
@@ -94,7 +94,7 @@
         </div>
     </div>
 
-    @if (count($airlines) > 0)
+    @if (count($airlines) != 0)
         <div class="mt-10 flex justify-center items-center">
             {{  $airlines->withQueryString()->links()  }}
         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\ActiveFlights;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -25,14 +26,8 @@ class Airline extends Model
         return $this->hasMany(Flight::class, 'airline_id');
     }
 
-    public function active_flights()
+    protected static function booted(): void
     {
-        $today = Carbon::now();
-        $flights = $this->flights()
-                            ->whereDate('departure_date', '<=', $today)
-                            ->whereDate('arrival_date', '>=', $today)
-                            ->get();
-
-        return $flights;
+        static::addGlobalScope(new ActiveFlights());
     }
 }
