@@ -197,10 +197,7 @@
             window.location.search = params.toString();
         });
 
-        var selectedAirline = localStorage.getItem('selectedAirline');
-
-        if (selectedAirline !== null) {
-            selectElement.value = selectedAirline;
-        }
+        selectElement.value = selectElement.value == null ? "" : localStorage.getItem('selectedAirline');
+        selectElement.value = !params.has('airline') ? "" : selectElement.value;
     });
 </script>
