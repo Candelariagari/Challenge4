@@ -2,18 +2,20 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Flight extends Model
 {
-    protected $guarded = [];
     use HasFactory;
     use SoftDeletes;
+    protected $guarded = [];
+    protected $casts = [
+        'departure_date' => 'datetime:H:i d-m-Y',
+        'arrival_date' => 'datetime:H:i d-m-Y',
+    ];
 
     public function airline() : BelongsTo
     {
@@ -28,11 +30,5 @@ class Flight extends Model
     public function destination() : BelongsTo
     {
         return $this->belongsTo(City::class);
-    }
-
-    public function formatted_date($direction)
-    {
-        $date = $direction == 'departure_date' ? $this->departure_date : $this->arrival_date;
-        return Carbon::parse($date)->format('H:i d-m-Y');
     }
 }
