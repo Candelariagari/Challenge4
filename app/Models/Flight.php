@@ -12,10 +12,6 @@ class Flight extends Model
     use HasFactory;
     use SoftDeletes;
     protected $guarded = [];
-    protected $casts = [
-        'departure_date' => 'datetime:H:i d-m-Y',
-        'arrival_date' => 'datetime:H:i d-m-Y',
-    ];
 
     public function airline() : BelongsTo
     {

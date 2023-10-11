@@ -29,7 +29,7 @@
         @foreach ($flights as $flight)
             <tr id="row{{  $flight->id  }}">
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {{  $flight->toArray()['departure_date']  }}
+                    {{ date('H:i d-m-Y', strtotime($flight->departure_date)) }}
                 </td>
 
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
@@ -37,7 +37,7 @@
                 </td>
 
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {{  $flight->toArray()['arrival_date']  }}
+                    {{ date('H:i d-m-Y', strtotime($flight->arrival_date)) }}
                 </td>
 
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">

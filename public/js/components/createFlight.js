@@ -78,9 +78,6 @@ const createFlightForm = {
             oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
             oneYearLater.setHours(0, 0, 0, 0);
             this.oneYear = oneYearLater.toISOString().slice(0, 16);
-        },
-        formatDate(date){
-
         }
     },
     async mounted() {
@@ -96,8 +93,8 @@ const createFlightForm = {
             this.selectedAirlineId = this.flight.airline_id;
             this.selectedOriginId = this.flight.origin_id;
             this.selectedDestinationId = this.flight.destination_id;
-            this.depDate = this.flight.departure_date.replace(" ", "T").slice(0, 16);
-            this.arrivalDate = this.flight.arrival_date.replace(" ", "T").slice(0, 16);
+            this.depDate = this.flight.departure_date.replace(" ", "T");
+            this.arrivalDate = this.flight.arrival_date.replace(" ", "T");
         }
     },
     watch: {
