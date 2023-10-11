@@ -210,6 +210,7 @@
             }
         })
         .then(function(airline){
+            document.getElementById("newAirlineForm").reset();
             addRow(airline);
         })
         .catch(error => {

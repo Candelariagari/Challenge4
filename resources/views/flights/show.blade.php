@@ -18,7 +18,7 @@
     <div class="bg-gray-50 border border-black border-opacity-5 rounded-xl  py-5 mx-20 mt-12">
         <h2 class="ml-10 font-bold font-serif text-xl mb-5">Add a new flight</h2>
         <div id="app" class="mx-10">
-            <form>
+            <form id="create_flight_form">
                 <create-flight ref="createFlight"></create-flight>
                 <div class="flex justify-center">
                     <button class="bg-blue-400 text-white bold py-2 px-8 hover:bgg-blue-500 uppercase rounded-xl flex"

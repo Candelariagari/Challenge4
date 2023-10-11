@@ -95,7 +95,7 @@
 
     <div class="flex justify-center items-center py-4">
         <div class="w-1/2">
-            <form class="border border-gray-200 p-6 rounded-xl">
+            <form class="border border-gray-200 p-6 rounded-xl" id="add_city_form">
                 <label for="newCityName" class="flex justify-center font-bold">Name of the new city:</label>
                 <div class="mt-6">
                     <input type="text" id="newCityName" placeholder="" class="w-full text-sm focus:outline-none focus:ring">
@@ -120,10 +120,8 @@
     $(document).ready(function () {
         $('.deleteButton').on('click', function (e) {
             e.preventDefault();
-
-        var cityId = $(this).data('city-id');
-        var rowToDelete = $(`#fila${cityId}`);
-
+            var cityId = $(this).data('city-id');
+            var rowToDelete = $(`#fila${cityId}`);
 
             $.ajax({
                 method: 'DELETE',
@@ -168,6 +166,7 @@
                     selectElement.value = 0;
                     window.location.search = params.toString();
                 } else {
+                    document.getElementById('add_city_form').reset();
                     addRow(city);
                 }
                 alert('City created successfully.');
