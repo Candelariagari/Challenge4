@@ -229,7 +229,7 @@
         window.location.search = params.toString();
     });
     select_city.value = localStorage.getItem('selected_city') !== null ? localStorage.getItem('selected_city') : "";
-    select_city.value = !params.has('city') ? "" : select_city.value;
+    select_city.value = params.has('city') ? select_city.value : 0;
 
     var filter_active_flights = document.getElementById('active_flights');
     filter_active_flights.addEventListener('change', function() {

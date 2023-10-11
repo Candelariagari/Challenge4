@@ -149,12 +149,12 @@
 
             $('#citiesTable').append(newRow);
             $('.pagination').html(city.links);
-
         }
+        var selectElement = document.getElementById('select_airline');
+        let params = new URL(document.location).searchParams;
 
         $('.addCityButton').on('click', function (e) {
             e.preventDefault();
-
             var newCityName = $('#newCityName').val();
 
             $.ajax({
@@ -163,16 +163,19 @@
                 data: { name: newCityName },
             })
             .done(function(city) {
-                addRow(city);
+                if(params.has('airline')){
+                    params.delete('airline');
+                    selectElement.value = 0;
+                    window.location.search = params.toString();
+                } else {
+                    addRow(city);
+                }
                 alert('City created successfully.');
             })
             .fail(function (response) {
                 alert('Could not create the city.');
             })
         });
-
-        let params = new URL(document.location).searchParams;
-        var selectElement = document.getElementById('select_airline');
 
         $('#cities_id').on('click', function(e){
             params.delete('order_by');
@@ -197,7 +200,7 @@
             window.location.search = params.toString();
         });
 
-        selectElement.value = selectElement.value == null ? "" : localStorage.getItem('selectedAirline');
-        selectElement.value = !params.has('airline') ? "" : selectElement.value;
+        selectElement.value = selectElement.value !== null ?  localStorage.getItem('selectedAirline') : "";
+        selectElement.value = params.has('airline') ? selectElement.value : 0;
     });
 </script>
