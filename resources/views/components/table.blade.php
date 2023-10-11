@@ -1,5 +1,4 @@
 @props(['flights'])
-
 <table class="min-w-full divide-y divide-gray-200 mx-auto-50" >
     <tbody class="bg-white divide-y divide-gray-200" id="flightsTable">
         @if (count($flights) == 0)
@@ -30,7 +29,7 @@
         @foreach ($flights as $flight)
             <tr id="row{{  $flight->id  }}">
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {{  $flight->departure_date  }}
+                    {{ date('H:i d-m-Y', strtotime($flight->departure_date)) }}
                 </td>
 
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
@@ -38,7 +37,7 @@
                 </td>
 
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                    {{  $flight->arrival_date  }}
+                    {{ date('H:i d-m-Y', strtotime($flight->arrival_date)) }}
                 </td>
 
                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">

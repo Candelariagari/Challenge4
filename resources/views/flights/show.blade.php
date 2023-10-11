@@ -1,5 +1,10 @@
 @stack('scripts')
 <x-layout>
+    <div class="flex items-center justify-between px-20 pb-8">
+        <div class="ml-5">
+            <h3 class="font-serif font-semibold tracking-widest">Flights</h3>
+        </div>
+    </div>
     <x-table-style>
         <x-table :flights="$flights"/>
     </x-table-style>
@@ -13,7 +18,7 @@
     <div class="bg-gray-50 border border-black border-opacity-5 rounded-xl  py-5 mx-20 mt-12">
         <h2 class="ml-10 font-bold font-serif text-xl mb-5">Add a new flight</h2>
         <div id="app" class="mx-10">
-            <form>
+            <form id="create_flight_form">
                 <create-flight ref="createFlight"></create-flight>
                 <div class="flex justify-center">
                     <button class="bg-blue-400 text-white bold py-2 px-8 hover:bgg-blue-500 uppercase rounded-xl flex"
@@ -84,9 +89,9 @@
     function addRow(flight) {
         console.log(flight);
         var newRow = `<tr id="row${flight.id}">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"> ${flight.departure_date}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"> ${   flight.departure_date  }</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"> ${flight.origin.name}</td>
-                            <td class="px-6 py-4 text-sm font-medium text-gray-900"> ${flight.arrival_date}</td>
+                            <td class="px-6 py-4 text-sm font-medium text-gray-900"> ${   flight.arrival_date  }</td>
                             <td class="px-6 py-4 text-sm font-medium text-gray-900"> ${flight.destination.name}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><a href="/flights/${flight.id}"> Edit </a></td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">

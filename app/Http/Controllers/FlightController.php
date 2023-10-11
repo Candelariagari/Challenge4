@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
 use App\Models\Flight;
-use App\Models\Airline;
 use Illuminate\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;

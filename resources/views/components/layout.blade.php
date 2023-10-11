@@ -24,7 +24,7 @@
         <nav class="md:flex md:items-center flex justify-evenly">
 
             <div class="flex items-center mr-auto">
-                <a href="/" class="mr-4">
+                <a href="/airlines" class="mr-4">
                     <img src="https://img.freepik.com/vector-premium/diseno-logotipo-viaje-avion-aire-plano_8035-9.jpg?w=2000" alt="Agency Logo" width="200">
                 </a>
                 <h1 class="font-serif text-3xl font-semibold text-sky-100 tracking-widest">Travel Agency</h1>

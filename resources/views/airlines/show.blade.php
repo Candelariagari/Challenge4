@@ -1,26 +1,32 @@
 <x-layout>
-    <div class="flex items-center justify-end px-20 pb-8">
-        <label for="cities" class="mr-2">Filter airlines by: </label>
-        <div class="relative flex items-center rounded-xl border border-gray-100">
-            <select class="flex-1 appearance-none bg-transparent py-2 pl-3 pr-9 text-sm font-semibold" id="cities">
-                <option disabled selected>Select city</option>
-                @foreach ($cities as $city)
-                    <option value="{{ $city->id  }}">{{  $city->name  }}</option>
-                @endforeach
-                <option value="0">All cities</option>
-            </select>
-
-            <svg class="transform -rotate-90 absolute pointer-events-none" style="right: 12px;" width="22" height="22" viewBox="0 0 22 22">
-                <g fill="none" fill-rule="evenodd">
-                    <path stroke="#000" stroke-opacity=".012" stroke-width=".5" d="M21 1v20.16H.84V1z"></path>
-                    <path fill="#222" d="M13.854 7.224l-3.847 3.856 3.847 3.856-1.184 1.184-5.04-5.04 5.04-5.04z"></path>
-                </g>
-            </svg>
+    <div class="flex items-center justify-between px-20 pb-8">
+        <div class="ml-5">
+            <h3 class="font-serif font-semibold tracking-widest">Airlines</h3>
         </div>
 
-        <label for="active_flights" class="mr-2">Active flights: </label>
-        <div class="relative flex items-center rounded-xl border border-gray-100">
-            <input type="number" min="0" class="flex-1 appearance-none bg-transparent py-2 pl-3 pr-9 text-sm font-semibold" id="active_flights">
+        <div class="flex">
+            <label for="cities" class="mr-2">Filter airlines by: </label>
+            <div class="relative flex items-center rounded-xl border border-gray-100 mr-2">
+                <select class="flex-1 appearance-none bg-transparent py-2 pl-3 pr-9 text-sm font-semibold" id="cities">
+                    <option disabled selected>Select city</option>
+                    @foreach ($cities as $city)
+                        <option value="{{ $city->id  }}">{{  $city->name  }}</option>
+                    @endforeach
+                    <option value="0">All cities</option>
+                </select>
+
+                <svg class="transform -rotate-90 absolute pointer-events-none" style="right: 12px;" width="22" height="22" viewBox="0 0 22 22">
+                    <g fill="none" fill-rule="evenodd">
+                        <path stroke="#000" stroke-opacity=".012" stroke-width=".5" d="M21 1v20.16H.84V1z"></path>
+                        <path fill="#222" d="M13.854 7.224l-3.847 3.856 3.847 3.856-1.184 1.184-5.04-5.04 5.04-5.04z"></path>
+                    </g>
+                </svg>
+            </div>
+
+            <label for="active_flights" class="mx-2">Active flights: </label>
+            <div class="relative flex items-center rounded-xl border border-gray-100">
+                <input type="number" min="0" class="flex-1 appearance-none bg-transparent py-2 pl-3 pr-9 text-sm font-semibold" id="active_flights">
+            </div>
         </div>
     </div>
     <div class="flex flex-col">
@@ -204,6 +210,7 @@
             }
         })
         .then(function(airline){
+            document.getElementById("newAirlineForm").reset();
             addRow(airline);
         })
         .catch(error => {
@@ -223,6 +230,7 @@
         window.location.search = params.toString();
     });
     select_city.value = localStorage.getItem('selected_city') !== null ? localStorage.getItem('selected_city') : "";
+    select_city.value = params.has('city') ? select_city.value : 0;
 
     var filter_active_flights = document.getElementById('active_flights');
     filter_active_flights.addEventListener('change', function() {
@@ -234,4 +242,5 @@
         localStorage.setItem('filtering_active_flights', this.value);
     });
     filter_active_flights.value = localStorage.getItem('filtering_active_flights') !== null ? localStorage.getItem('filtering_active_flights') : "";
+    filter_active_flights.value = !params.has('active_flights') ? "" : filter_active_flights.value;
 </script>

@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\Scopes\ActiveFlights;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -28,6 +27,7 @@ class Airline extends Model
 
     protected static function booted(): void
     {
-        static::addGlobalScope(new ActiveFlights());
+        parent::boot();
+        static::addGlobalScope(new ActiveFlights);
     }
 }

@@ -14,36 +14,41 @@ class AirlineController extends Controller
 {
     public function index(Request $request) : View
     {
-        $airlines = [];
-
         if($request->has('city') || $request->has('active_flights')){
-            if ($request->has('city')){
+            if ($request->has('city') && !$request->has('active_flights')){
                 $city = City::with('airlines')->find($request->input('city'));
-                $airlines_cities = $city->airlines()->paginate(5);
+                $airlines = $city->airlines()->paginate(5);
             }
 
-            if ($request->has('active_flights')){
-                $airlines_active_flights = Airline::withCount(['flights as active' =>
+            if ($request->has('active_flights') && !$request->has('city')){
+                $airlines = Airline::withCount(['flights as active' =>
                      fn ($query) => $query->whereDate('departure_date', '<=', now())
                                          ->whereDate('arrival_date', '>=', now())
                      ])
                  ->havingRaw('active = ?', [$request->input('active_flights')])
                  ->paginate(5);
-
             }
 
             if($request->has('city') && $request->has('active_flights')){
-                $airlines = $airlines_cities->count() == 0 ? $airlines_cities : $airlines_cities->intersect($airlines_active_flights);
+                $airlines = Airline::whereHas('cities', fn ($query) =>
+                    $query->where('city_id', $request->input('city'))
+                    )
+                    ->withCount(['flights as active' =>
+                        fn ($query) => $query->whereDate('departure_date', '<=', now())
+                                            ->whereDate('arrival_date', '>=', now())
+                    ])
+                    ->havingRaw('active = ?', [$request->input('active_flights')])
+                    ->paginate(5);
             }
-            else {
-                $airlines = !$request->has('active_flights') ? $airlines_cities : $airlines_active_flights;
-            }
-        } else {
-            $airlines = Airline::paginate(5);
+
+            return view('airlines.show', [
+                'airlines' => $airlines,
+                'cities' => City::all()
+            ]);
         }
 
         return view('airlines.show', [
-            'airlines' => $airlines,
+            'airlines' => Airline::paginate(5),
             'cities' => City::all()
         ]);
     }
