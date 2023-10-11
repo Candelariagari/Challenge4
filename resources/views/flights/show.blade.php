@@ -85,20 +85,13 @@
     }).mount('#app');
 
     const newFlightData = newFlight.$refs.createFlight;
-    function format_date(date){
-        const hour = date.slice(11,16);
-        const day = date.slice(8, 10);
-        const month = date.slice(5, 7);
-        const year = date.slice(0, 4);
-        return hour+" "+day+"-"+month+"-"+year;
-    }
 
     function addRow(flight) {
         console.log(flight);
         var newRow = `<tr id="row${flight.id}">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"> ${format_date(flight.departure_date)}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"> ${   flight.departure_date  }</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"> ${flight.origin.name}</td>
-                            <td class="px-6 py-4 text-sm font-medium text-gray-900"> ${format_date(flight.arrival_date)}</td>
+                            <td class="px-6 py-4 text-sm font-medium text-gray-900"> ${   flight.arrival_date  }</td>
                             <td class="px-6 py-4 text-sm font-medium text-gray-900"> ${flight.destination.name}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"><a href="/flights/${flight.id}"> Edit </a></td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
